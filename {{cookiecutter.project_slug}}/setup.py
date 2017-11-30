@@ -7,8 +7,8 @@ from setuptools import setup, find_packages
 
 def _read_md_as_rst(file):
     """Read Markdown file and convert it to ReStructuredText."""
-    from pypandoc import convert
-    return convert(file, 'rst')
+    from pypandoc import convert_file
+    return convert_file(file, 'rst', format='md')
 
 
 def _read_md_as_md(file):
