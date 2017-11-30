@@ -1,0 +1,25 @@
+package:
+  name: {{ cookiecutter.project_slug }}
+  version: {{ cookiecutter.version }}
+
+source:
+  path: ../
+
+build:
+  script: $PYTHON setup.py install --single-version-externally-managed --record=record.txt
+  number: 0
+
+requirements:
+  build:
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - {{ cookiecutter.project_slug }}
+
+about:
+  home: http://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
+  license: {{ cookiecutter.open_source_license }}
+  summary: "{{ cookiecutter.project_short_description }}"
