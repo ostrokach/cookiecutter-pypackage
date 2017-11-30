@@ -17,8 +17,7 @@ from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
 from {{ cookiecutter.project_slug }} import cli
 {%- endif %}
 
-{%- if cookiecutter.use_pytest == 'y' %}
-
+{%- if cookiecutter.command_line_interface|lower == 'click' %}
 
 def test_command_line_interface():
     """Test the CLI."""
@@ -29,9 +28,8 @@ def test_command_line_interface():
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output
-{%- endif %}
-{%- else %}
 
+{%- endif %}
 
 class Test{{ cookiecutter.project_slug|title }}(unittest.TestCase):
     """Tests for `{{ cookiecutter.project_slug }}` package."""
@@ -55,5 +53,4 @@ class Test{{ cookiecutter.project_slug|title }}(unittest.TestCase):
         help_result = runner.invoke(cli.main, ['--help'])
         assert help_result.exit_code == 0
         assert '--help  Show this message and exit.' in help_result.output
-{%- endif %}
 {%- endif %}
