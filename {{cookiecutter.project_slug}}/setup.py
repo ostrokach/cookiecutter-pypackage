@@ -26,12 +26,6 @@ def read_md(file):
         return _read_md_as_md(file)
 
 
-with open('README.md') as readme_file:
-    readme = read_md(readme_file)
-
-with open('HISTORY.md') as history_file:
-    history = read_md(history_file)
-
 requirements = [
     {%- if cookiecutter.command_line_interface|lower == 'click' %}
     'Click>=6.0',
@@ -65,7 +59,7 @@ setup(
     name='{{ cookiecutter.project_slug }}',
     version='{{ cookiecutter.version }}',
     description="{{ cookiecutter.project_short_description }}",
-    long_description=readme + '\n\n' + history,
+    long_description=read_md('README.md') + '\n\n' + read_md('HISTORY.md'),
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     author_email='{{ cookiecutter.email }}',
     url='https://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}',
