@@ -5,11 +5,32 @@
 
 from setuptools import setup, find_packages
 
-with open('README.rst') as readme_file:
-    readme = readme_file.read()
+def _read_md_as_rst(file):
+    """Read Markdown file and convert it to ReStructuredText."""
+    from pypandoc import convert
+    return convert(file, 'rst')
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
+
+def _read_md_as_md(file):
+    """Read Markdown file."""
+    with open(op.join(op.dirname(__file__), file)) as ifh:
+        return ifh.read()
+
+
+def read_md(file):
+    """Read MarkDown file and try to convert it to ReStructuredText if you can."""
+    try:
+        return _read_md_as_rst(file)
+    except ImportError:
+        warnings.warn("pypandoc module not found, could not convert Markdown to RST!")
+        return _read_md_as_md(file)
+
+
+with open('README.md') as readme_file:
+    readme = read_md(readme_file)
+
+with open('HISTORY.md') as history_file:
+    history = read_md(history_file)
 
 requirements = [
     {%- if cookiecutter.command_line_interface|lower == 'click' %}
