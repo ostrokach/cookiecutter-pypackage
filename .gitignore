@@ -94,3 +94,6 @@ target/
 # Cookiecutter
 output/
 python_boilerplate/
+
+# AS
+.mypy_cache
