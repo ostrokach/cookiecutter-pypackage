@@ -8,7 +8,7 @@ import unittest
 from click.testing import CliRunner
 {%- endif %}
 
-from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
+import {{ cookiecutter.project_slug }}
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 from {{ cookiecutter.project_slug }} import cli
 {%- endif %}
@@ -16,6 +16,16 @@ from {{ cookiecutter.project_slug }} import cli
 {%- if cookiecutter.use_pytest == 'y' %}
 
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
+
+@pytest.mark.parametrize('attribute', ['__author__', '__email__', '__version__'])
+def test_attribute(attribute):
+    assert getattr({{ cookiecutter.project_slug }}, attribute)
+
+
+def test_main():
+    from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
+    assert {{ cookiecutter.project_slug }}
+
 
 def test_command_line_interface():
     """Test the CLI."""
