@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """The setup script."""
+import os.path as op
+import warnings
 
 from setuptools import setup, find_packages
+
 
 def _read_md_as_rst(file):
     """Read Markdown file and convert it to ReStructuredText."""
