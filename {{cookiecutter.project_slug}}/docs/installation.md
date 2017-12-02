@@ -29,7 +29,7 @@ git clone git://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.pr
 Or download the [tarball]:
 
 ```bash
-curl -OL https://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master
+curl -OL https://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/repository/master/archive.tar
 ```
 
 Once you have a copy of the source, you can install it with:
@@ -39,4 +39,4 @@ python setup.py install
 ```
 
 [GitLab repo]: https://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
-[tarball]: https://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master
+[tarball]: https://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/repository/master/archive.tar
