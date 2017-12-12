@@ -10,11 +10,6 @@
 
 {{ cookiecutter.project_short_description }}
 
-{% if is_open_source %}
-* Free software: {{ cookiecutter.open_source_license }}
-* Documentation: https://{{ cookiecutter.github_username }}.gitlab.io/{{ cookiecutter.project_slug }}/.
-{% endif %}
-
 ## Features
 
 * TODO
