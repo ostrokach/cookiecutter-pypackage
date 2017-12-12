@@ -8,7 +8,17 @@ def remove_file(filepath):
     os.remove(os.path.join(PROJECT_DIRECTORY, filepath))
 
 
+def create_symbolic_links():
+    for filename in ['AUTHORS.md', 'CONTRIBUTING.md', 'HISTORY.md', 'README.md']:
+        os.symlink(
+            '../{}'.format(filename),
+            os.path.join(PROJECT_DIRECTORY, 'docs', filename.lower())
+        )
+
+
 if __name__ == '__main__':
+    create_symbolic_links()
+
     if '{{ cookiecutter.use_pypi_deployment_with_travis }}' != 'y':
         remove_file('travis_pypi_setup.py')
 
