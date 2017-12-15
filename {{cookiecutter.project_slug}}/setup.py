@@ -57,7 +57,7 @@ setup(
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     author_email='{{ cookiecutter.email }}',
     url='https://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}',
-    packages=find_packages(include=['{{ cookiecutter.project_slug }}']),
+    packages=find_packages(),
     {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
