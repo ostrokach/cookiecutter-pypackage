@@ -3,7 +3,7 @@
 import os.path as op
 import warnings
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 
 def _read_md_as_rst(file):
@@ -79,7 +79,6 @@ setup(
         '{{ license_classifiers[cookiecutter.open_source_license] }}',
 {%- endif %}
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
     test_suite='tests',
