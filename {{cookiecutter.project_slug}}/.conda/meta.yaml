@@ -1,6 +1,9 @@
+{{ '{% set name = "' }}{{ cookiecutter.project_slug }} {{' " %}' }}
+{{ '{% set version = "' }}{{ cookiecutter.version }}{{ '" %}' }}
+
 package:
-  name: {{ cookiecutter.project_slug }}
-  version: "{{ cookiecutter.version }}"
+  name: {{ '{{ name }}' }}
+  version: {{ '"{{ version }}"' }}
 
 source:
   path: ../
@@ -21,6 +24,11 @@ requirements:
 test:
   imports:
     - {{ cookiecutter.project_slug }}
+
+outputs:
+  - name: {{ name }}
+    type: conda
+  - type: wheel
 
 about:
   home: http://gitlab.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
