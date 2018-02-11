@@ -22,6 +22,13 @@ requirements:
     - click
 
 test:
+  requires:
+    - flake8
+    - isort
+    - mypy
+    - pytest
+    - pytest-cov
+    - pytest-benchmark
   imports:
     - {{ cookiecutter.project_slug }}
 
