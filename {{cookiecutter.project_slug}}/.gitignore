@@ -54,6 +54,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+docs/_modules/
 
 # PyBuilder
 target/
@@ -62,4 +63,7 @@ target/
 .python-version
 
 # AS
+public/
 .mypy_cache/
+.idea/
+.vscode/

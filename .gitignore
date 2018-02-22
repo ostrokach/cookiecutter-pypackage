@@ -78,6 +78,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+docs/_modules/
 
 # IntelliJ Idea family of suites
 .idea
