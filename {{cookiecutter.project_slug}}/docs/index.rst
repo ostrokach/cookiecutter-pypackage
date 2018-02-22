@@ -12,7 +12,7 @@ Contents
    contributing
    {% if cookiecutter.create_author_file == 'y' -%}authors
    {% endif -%}history
-   api/generated/{{ cookiecutter.project_name }}
+   modules
 
 Indices and tables
 ==================

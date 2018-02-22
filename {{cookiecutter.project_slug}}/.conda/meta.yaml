@@ -1,9 +1,6 @@
-{{ '{% set name = "' }}{{ cookiecutter.project_slug }} {{' " %}' }}
-{{ '{% set version = "' }}{{ cookiecutter.version }}{{ '" %}' }}
-
 package:
-  name: {{ '{{ name }}' }}
-  version: {{ '"{{ version }}"' }}
+  name: {{ cookiecutter.project_slug }}
+  version: {{ cookiecutter.version }}
 
 source:
   path: ../
@@ -23,9 +20,6 @@ requirements:
 
 test:
   requires:
-    - flake8
-    - isort
-    - mypy
     - pytest
     - pytest-cov
     - pytest-benchmark
@@ -33,7 +27,7 @@ test:
     - {{ cookiecutter.project_slug }}
 
 outputs:
-  - name: {{ name }}
+  - name: {{ cookiecutter.project_slug }}
     type: conda
   - type: wheel
 

@@ -1,13 +1,14 @@
-image: condaforge/linux-anvil:latest
+image: registry.gitlab.com/kimlab/linux-anvil:latest
 
 stages:
+  - lint
   - build
   - test
   - deploy
 
 cache:
   paths:
-    - conda-cache
+    - .conda_packages
 
 # === Variables ===
 
@@ -21,10 +22,13 @@ variables:
 
 .conda_configure: &conda_configure
   before_script:
+    # Conda environment variables
+    - export CONDA_PKGS_DIRS="${CI_PROJECT_DIR}/.conda_packages"
     # Make conda cache and bld folders
-    - mkdir -p "${CI_PROJECT_DIR}/conda-bld" "${CI_PROJECT_DIR}/conda-cache"
+    - mkdir -p "${CI_PROJECT_DIR}/conda-bld" "${CONDA_PKGS_DIRS}"
     # Conda configure
     - conda config --set channel_priority true
+    - conda config --append pkgs_dirs "${CONDA_PKGS_DIRS}"
     - conda config --append channels conda-forge
     - conda config --append channels {{ cookiecutter.github_username }}-forge
     - case "${PACKAGE_VERSION}" in
@@ -42,6 +46,19 @@ variables:
     - conda update -n root -yq conda --no-channel-priority
     - conda update -n root -yq conda-build python --no-channel-priority
 
+# === Lint ===
+
+lint:
+  stage: lint
+  <<: [*conda_configure]
+  variables:
+    <<: [*py36]
+  script:
+    - conda install -yq "python=${PYTHON_VERSION}" isort flake8 mypy
+    - python -m isort -p ${CI_PROJECT_NAME} -c
+    - python -m flake8
+    - python -m mypy -p ${CI_PROJECT_NAME}
+
 # === Build ===
 
 .build: &build
@@ -51,7 +68,6 @@ variables:
     - conda build .
       --no-test
       --python $PYTHON_VERSION
-      --cache-dir "${CI_PROJECT_DIR}/conda-cache"
       --output-folder "${CI_PROJECT_DIR}/conda-bld"
   artifacts:
     paths:
@@ -75,7 +91,6 @@ build-py36:
     - conda build .
       --test
       --python $PYTHON_VERSION
-      --cache-dir "${CI_PROJECT_DIR}/conda-cache"
   coverage: /^TOTAL.* (\d+\%)/
   artifacts:
     paths:
@@ -101,7 +116,7 @@ test-py36:
     - conda install -yq nbconvert ipython ipykernel pandoc
     - pip install -q sphinx sphinx_rtd_theme recommonmark nbsphinx
     # Build docs
-    - (cd docs && sphinx-apidoc ${CI_PROJECT_DIR}/${CI_PROJECT_NAME} -o api/generated -TeMP)
+    - (cd docs && sphinx-apidoc ../${CI_PROJECT_NAME} -o api/generated -TeMP)
     - sphinx-build docs public
   dependencies:
     - build-py36
