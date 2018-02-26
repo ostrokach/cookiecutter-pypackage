@@ -20,7 +20,7 @@ variables:
 
 # === Configurations ===
 
-.conda_configure: &conda_configure
+.configure: &configure
   before_script:
     # Conda environment variables
     - export CONDA_PKGS_DIRS="${CI_PROJECT_DIR}/.conda_packages"
@@ -50,7 +50,7 @@ variables:
 
 lint:
   stage: lint
-  <<: [*conda_configure]
+  <<: [*configure]
   variables:
     <<: [*py36]
   script:
@@ -74,7 +74,7 @@ lint:
       - conda-bld
 
 build-py36:
-  <<: [*conda_configure, *build]
+  <<: [*configure, *build]
   variables:
     <<: [*py36]
 
@@ -97,16 +97,17 @@ build-py36:
       - environment-py${PYTHON_VERSION/./}.yml
 
 test-py36:
-  <<: [*conda_configure, *test]
+  <<: [*configure, *test]
   dependencies:
     - build-py36
   variables:
     <<: [*py36]
 
-# === Pages ===
+# === Docs ===
 
-.docs: &docs
+docs:
   stage: test
+  <<: [*configure]
   script:
     # Restore built packages
     - cp -r $CI_PROJECT_DIR/conda-bld/* /opt/conda/conda-bld/
@@ -122,20 +123,6 @@ test-py36:
     - build-py36
   variables:
     <<: [*py36]
-
-test-pages:
-  <<: [*conda_configure, *docs]
-  except:
-    - master
-    - tags
-
-pages:
-  <<: [*conda_configure, *docs]
-  only:
-    - master
-    - tags
-  except:
-    - triggers
   artifacts:
     paths:
       - public
@@ -172,3 +159,16 @@ deploy-py36:
   <<: *deploy
   dependencies:
     - build-py36
+
+# === Pages ===
+
+pages:
+  stage: deploy
+  script:
+    - echo "Building multi-version pages..."
+  dependencies:
+    - docs
+  only:
+    - master
+  except:
+    - triggers
